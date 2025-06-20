@@ -4,7 +4,7 @@ Feature: Test de API prueba técnica
     * configure ssl = true
     * url 'http://bp-se-test-cabcd9b246a5.herokuapp.com/kjgalarz/api/characters'
     * def headers = { 'Content-Type': 'application/json' }
-    * def idGlobal = 13
+    * def idGlobal = 6
 
   Scenario: Crear personaje (exitoso)
     * def personaje = read('classpath:data/crear_personaje.json')
@@ -53,7 +53,7 @@ Feature: Test de API prueba técnica
     When method GET
     Then status 200
     And print response
-    And match response contains { id: idGlobal }
+    And match response contains { id: '#(idGlobal)', }
 
   Scenario: Obtener personaje por ID (no existe)
     Given path '999'
@@ -112,16 +112,16 @@ Feature: Test de API prueba técnica
 
   #####################################################################################
 
-  Scenario: Crear, obtener y eliminar personaje de forma dinámicamente
+  Scenario: Crear, obtener y eliminar personaje de forma dinámica (En caso de que se haya querido así)
     * def personaje = read('classpath:data/crear_personaje_test_dinamico.json')
     Given request personaje
     And headers headers
     When method POST
     Then status 201
     And print 'Personaje creado:', response
-    * def idPersonaje = response.id
+    And def idPersonaje = response.id
 
-    # Obtener el personaje por su ID
+    # Obtener el personaje por su ID verificando que se creó
     Given path idPersonaje
     When method GET
     Then status 200
@@ -129,11 +129,20 @@ Feature: Test de API prueba técnica
     And match response.id == idPersonaje
     And match response.name == 'Spiderman'
 
-    # Eliminar personaje
+    # Actualizar el personaje creado
+    * def personaje = read('classpath:data/actualizar_personaje_test_dinamico.json')
+    Given request personaje
+    And path idPersonaje
+    When method PUT
+    Then status 200
+    And print response
+    And match response.id == idPersonaje
+    And match response.name == 'Spiderman2'
+
+    # Eliminar personaje por ID
     Given path idPersonaje
     When method DELETE
     Then status 204
-    And print 'Personaje eliminado con éxito'
 
     # Verificar que ya no existe
     Given path idPersonaje
