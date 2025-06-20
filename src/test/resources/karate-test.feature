@@ -12,3 +12,5 @@ Feature: Test de API súper simple
     Given url 'http://bp-se-test-cabcd9b246a5.herokuapp.com/kjgalarz/api/characters'
     When method get
     Then status 200
+
+
