@@ -4,7 +4,7 @@ Feature: Test de API prueba técnica
     * configure ssl = true
     * url 'http://bp-se-test-cabcd9b246a5.herokuapp.com/kjgalarz/api/characters'
     * def headers = { 'Content-Type': 'application/json' }
-    * def idGlobal = 6
+    * def idGlobal = 30
 
   Scenario: Crear personaje (exitoso)
     * def personaje = read('classpath:data/crear_personaje.json')
