@@ -4,7 +4,7 @@ Feature: Test de API prueba técnica
     * configure ssl = true
     * url 'http://bp-se-test-cabcd9b246a5.herokuapp.com/kjgalarz/api/characters'
     * def headers = { 'Content-Type': 'application/json' }
-    * def idGlobal = 13
+    * def idGlobal = 20
 
   Scenario: Crear personaje (exitoso)
     * def personaje = read('classpath:data/crear_personaje.json')
@@ -53,7 +53,7 @@ Feature: Test de API prueba técnica
     When method GET
     Then status 200
     And print response
-    And match response contains { id: idGlobal }
+    And match response contains { id: '#(idGlobal)', }
 
   Scenario: Obtener personaje por ID (no existe)
     Given path '999'
